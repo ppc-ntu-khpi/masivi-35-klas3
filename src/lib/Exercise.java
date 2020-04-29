@@ -2,30 +2,29 @@ package lib;
 
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.stream.Collectors;
 
 /**
- * Class that calculates the biggest number in two dimensional array
+ * Class that calculates second largest number in two dimensional array
  * @author Ivan Shapovalov
  */
 public class Exercise {
     /**
-     * Method that calculates the biggest number in two dimensional integer array
+     * Method that calculates second largest number in two dimensional integer array
      * @param array source array
-     * @return the biggest integer number in source array
+     * @return second largest integer number in source array
      */
-    public static Integer GetTheBiggestNumber(int[][] array) {
+    public static Integer GetSecondNumber(int[][] array) {
         if(array == null) {
             return null;
         }
         
-        int[] resultArray = new int[array[0].length + array[1].length];
-        
-        for(int[] row : array) {
-            System.arraycopy(row, 0, resultArray, 0, row.length);
-        }
-        
+        int[] resultArray = Arrays.copyOf(array[0], array[0].length + array[1].length);
+        System.arraycopy(array[1], 0, resultArray, array[0].length, array[1].length);
         Arrays.sort(resultArray);
         
-        return resultArray[resultArray.length - 1];
+        return (new LinkedHashSet<>(Arrays.stream(resultArray).boxed().collect(Collectors.toList()))
+                .toArray(new Integer[0]))[1];
     }
 }
